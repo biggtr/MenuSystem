@@ -40,7 +40,7 @@ protected:
 	void onFindSessionsComplete(bool bWasSuccessful);
 	void onJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 	void onDestroySessionComplete(FName SessionName, bool bWasSuccessful);
-	void onStartSessionComplete(FOnStartSessionComplete , FName, bool);
+	void onStartSessionComplete(FName SessionName, bool bWasSuccessful);
 private:
 	
 	IOnlineSubsystem* onlineSubsystem;

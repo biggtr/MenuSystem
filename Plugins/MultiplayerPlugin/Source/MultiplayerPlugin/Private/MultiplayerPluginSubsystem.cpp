@@ -60,7 +60,7 @@ void UMultiplayerPluginSubsystem::onDestroySessionComplete(FName SessionName, bo
 
 }
 
-void UMultiplayerPluginSubsystem::onStartSessionComplete(FOnStartSessionComplete, FName, bool)
+void UMultiplayerPluginSubsystem::onStartSessionComplete(FName SessionName, bool bWasSuccessful)
 {
 
 }
