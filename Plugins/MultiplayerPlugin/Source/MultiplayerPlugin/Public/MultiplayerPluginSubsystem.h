@@ -10,7 +10,6 @@
  * 
  */
 class IOnlineSubsystem;
-class IOnlineSubsystemPtr;
 UCLASS()
 class MULTIPLAYERPLUGIN_API UMultiplayerPluginSubsystem : public UGameInstanceSubsystem
 {
@@ -20,9 +19,42 @@ class MULTIPLAYERPLUGIN_API UMultiplayerPluginSubsystem : public UGameInstanceSu
 public:
 	UMultiplayerPluginSubsystem();
 
-protected:
+//////////////////////////////////////////////////////////////////////////
+//Functions that handle session functionalities
+//////////////////////////////////////////////////////////////////////////
+	void createSession(int32 numPublicConnections,FString matchType);
 
+	void findSession(int32 maxSearchResults);
+
+	void joinSession(const FOnlineSessionSearchResult& searchResult);
+	
+	void destroySession();
+	
+	void startSession();
+
+protected:
+////////////////////////////////////////////////////////////
+//Callback functions to handle creating,joining,finding,destroying sessions
+////////////////////////////////////////////////////////////
+	void onCreateSessionComplete(FName SessionName, bool bWasSuccessful);
+	void onFindSessionsComplete(bool bWasSuccessful);
+	void onJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
+	void onDestroySessionComplete(FName SessionName, bool bWasSuccessful);
+	void onStartSessionComplete(FOnStartSessionComplete , FName, bool);
 private:
+	
 	IOnlineSubsystem* onlineSubsystem;
 	TSharedPtr<class IOnlineSession, ESPMode::ThreadSafe> onlineSession;
+
+////////////////////////////////////////////////////////////
+//Delegates that handles creating,joining,finding,destroying sessions
+////////////////////////////////////////////////////////////
+	FOnCreateSessionCompleteDelegate onCreateSessionCompleteDelegate;
+	FOnFindSessionsCompleteDelegate onFindSessionCompleteDelegate;
+	FOnJoinSessionCompleteDelegate onJoinSessionCompleteDelegate;
+	FOnDestroySessionCompleteDelegate onDestroySessionCompleteDelegate;
+	FOnStartSessionCompleteDelegate onStartSessionCompleteDelegate;
+
+	
+	
 };
