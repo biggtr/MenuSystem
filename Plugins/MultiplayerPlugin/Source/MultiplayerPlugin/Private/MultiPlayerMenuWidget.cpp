@@ -2,7 +2,7 @@
 
 
 #include "MultiPlayerMenuWidget.h"
-
+#include "Components/Button.h"
 
 void UMultiPlayerMenuWidget::menuSetup()
 {
@@ -25,4 +25,31 @@ void UMultiPlayerMenuWidget::menuSetup()
 
 		}
 	}
+}
+
+bool UMultiPlayerMenuWidget::Initialize()
+{
+	if (!Super::Initialize())
+	{
+		return false;
+	}
+	if (hostButton)
+	{
+		hostButton->OnClicked.AddDynamic(this, &ThisClass::onHostButtonClicked);
+	}
+	if (joinButton)
+	{
+		joinButton->OnClicked.AddDynamic(this, &ThisClass::onJoinButtonClicked);
+	}
+	return true;
+}
+
+void UMultiPlayerMenuWidget::onHostButtonClicked()
+{
+
+}
+
+void UMultiPlayerMenuWidget::onJoinButtonClicked()
+{
+
 }

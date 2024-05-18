@@ -19,4 +19,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void menuSetup();
 
+protected:
+	virtual bool Initialize() override;
+private: 
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* hostButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* joinButton;
+
+	UFUNCTION()
+	void onHostButtonClicked();
+
+	UFUNCTION()
+	void onJoinButtonClicked();
+
 };
