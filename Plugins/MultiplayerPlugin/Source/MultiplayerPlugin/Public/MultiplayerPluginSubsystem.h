@@ -50,11 +50,15 @@ private:
 //Delegates that handles creating,joining,finding,destroying sessions
 ////////////////////////////////////////////////////////////
 	FOnCreateSessionCompleteDelegate onCreateSessionCompleteDelegate;
+	FDelegateHandle createSessionCompleteDelegateHandle;
 	FOnFindSessionsCompleteDelegate onFindSessionCompleteDelegate;
+	FDelegateHandle findSessionCompleteDelegateHandle;
 	FOnJoinSessionCompleteDelegate onJoinSessionCompleteDelegate;
+	FDelegateHandle joinSessionCompleteDelegateHandle;
 	FOnDestroySessionCompleteDelegate onDestroySessionCompleteDelegate;
+	FDelegateHandle destroySessionCompleteDelegateHandle;
 	FOnStartSessionCompleteDelegate onStartSessionCompleteDelegate;
-
+	FDelegateHandle startSessionCompleteDelegateHandle;
 	
 	
 };
