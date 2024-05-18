@@ -35,4 +35,6 @@ private:
 	UFUNCTION()
 	void onJoinButtonClicked();
 
+
+	class UMultiplayerPluginSubsystem* multiplayerSubsystem;
 };

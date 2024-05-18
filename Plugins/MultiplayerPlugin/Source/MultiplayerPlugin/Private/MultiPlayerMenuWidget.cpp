@@ -3,6 +3,7 @@
 
 #include "MultiPlayerMenuWidget.h"
 #include "Components/Button.h"
+#include "MultiplayerPluginSubsystem.h"
 
 void UMultiPlayerMenuWidget::menuSetup()
 {
@@ -24,6 +25,12 @@ void UMultiPlayerMenuWidget::menuSetup()
 			playerController->SetShowMouseCursor(true);
 
 		}
+	}
+	UGameInstance* gameInstance = GetGameInstance();
+
+	if (gameInstance)
+	{
+		multiplayerSubsystem = gameInstance->GetSubsystem<UMultiplayerPluginSubsystem>();
 	}
 }
 
@@ -50,6 +57,11 @@ void UMultiPlayerMenuWidget::onHostButtonClicked()
 	{
 		
 		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Red, FString(TEXT("HostButtom is clicked")));
+	}
+	if (multiplayerSubsystem)
+	{
+		multiplayerSubsystem->createSession(4, FString("Free For All"));
+
 	}
 }
 
