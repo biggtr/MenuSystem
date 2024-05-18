@@ -46,10 +46,17 @@ bool UMultiPlayerMenuWidget::Initialize()
 
 void UMultiPlayerMenuWidget::onHostButtonClicked()
 {
-
+	if (GEngine)
+	{
+		
+		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Red, FString(TEXT("HostButtom is clicked")));
+	}
 }
 
 void UMultiPlayerMenuWidget::onJoinButtonClicked()
 {
-
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Red, FString(TEXT("JoinButtom is clicked")));
+	}
 }
