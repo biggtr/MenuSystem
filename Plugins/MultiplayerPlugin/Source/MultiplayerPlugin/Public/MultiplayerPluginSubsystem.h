@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "Interfaces/OnlineSessionInterface.h"
+
 #include "MultiplayerPluginSubsystem.generated.h"
 
 /**
@@ -44,7 +46,7 @@ protected:
 private:
 	
 	IOnlineSubsystem* onlineSubsystem;
-	TSharedPtr<class IOnlineSession, ESPMode::ThreadSafe> onlineSession;
+	IOnlineSessionPtr onlineSession;
 
 ////////////////////////////////////////////////////////////
 //Delegates that handles creating,joining,finding,destroying sessions

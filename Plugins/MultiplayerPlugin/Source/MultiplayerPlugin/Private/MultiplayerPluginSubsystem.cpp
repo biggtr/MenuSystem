@@ -3,7 +3,6 @@
 
 #include "MultiplayerPluginSubsystem.h"
 #include "OnlineSubsystem.h"
-#include "Interfaces/OnlineSessionInterface.h"
 UMultiplayerPluginSubsystem::UMultiplayerPluginSubsystem():
 	onCreateSessionCompleteDelegate(FOnCreateSessionCompleteDelegate::CreateUObject(this,&ThisClass::onCreateSessionComplete)),
 	onFindSessionCompleteDelegate(FOnFindSessionsCompleteDelegate::CreateUObject(this, &ThisClass::onFindSessionsComplete)),
@@ -56,8 +55,9 @@ void UMultiplayerPluginSubsystem::onFindSessionsComplete(bool bWasSuccessful)
 
 void UMultiplayerPluginSubsystem::onJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
-
 }
+
+
 
 void UMultiplayerPluginSubsystem::onDestroySessionComplete(FName SessionName, bool bWasSuccessful)
 {
