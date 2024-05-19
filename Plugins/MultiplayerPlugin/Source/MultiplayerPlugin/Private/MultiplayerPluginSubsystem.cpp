@@ -3,6 +3,8 @@
 
 #include "MultiplayerPluginSubsystem.h"
 #include "OnlineSubsystem.h"
+#include "OnlineSessionSettings.h"
+
 UMultiplayerPluginSubsystem::UMultiplayerPluginSubsystem():
 	onCreateSessionCompleteDelegate(FOnCreateSessionCompleteDelegate::CreateUObject(this,&ThisClass::onCreateSessionComplete)),
 	onFindSessionCompleteDelegate(FOnFindSessionsCompleteDelegate::CreateUObject(this, &ThisClass::onFindSessionsComplete)),
@@ -14,13 +16,39 @@ UMultiplayerPluginSubsystem::UMultiplayerPluginSubsystem():
 
 	if (onlineSubsystem)
 	{
-		onlineSession = onlineSubsystem->GetSessionInterface();
+		sessionInterface = onlineSubsystem->GetSessionInterface();
 	}
 
 }
 
 void UMultiplayerPluginSubsystem::createSession(int32 numPublicConnections, FString matchType)
 {
+	if (!sessionInterface.IsValid())
+	{
+		return;
+	}
+	auto existingSession = sessionInterface->GetNamedSession(NAME_GameSession);
+	if (existingSession)
+	{
+		sessionInterface->DestroySession(NAME_GameSession);
+	}
+	createSessionCompleteDelegateHandle = sessionInterface->AddOnCreateSessionCompleteDelegate_Handle(onCreateSessionCompleteDelegate);
+
+	sessionSettings = MakeShareable(new FOnlineSessionSettings);
+	sessionSettings->bIsLANMatch = IOnlineSubsystem::Get()->GetSubsystemName() == "NULL" ? true : false;
+	sessionSettings->NumPublicConnections = 4;
+	sessionSettings->bAllowJoinInProgress = true;
+	sessionSettings->bAllowJoinViaPresence = true;
+	sessionSettings->bShouldAdvertise = true;
+	sessionSettings->bUsesPresence = true;
+	sessionSettings->Set(FName("MatchType"), matchType, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+
+	ULocalPlayer* localPlayer = GetWorld()->GetFirstLocalPlayerFromController();
+
+	if (!sessionInterface->CreateSession(*localPlayer->GetPreferredUniqueNetId(), NAME_GameSession, *sessionSettings))
+	{
+		sessionInterface->ClearOnCreateSessionCompleteDelegate_Handle(createSessionCompleteDelegateHandle);
+	}
 
 }
 

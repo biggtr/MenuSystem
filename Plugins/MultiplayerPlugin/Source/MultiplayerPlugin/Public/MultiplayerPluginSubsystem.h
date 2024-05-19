@@ -46,8 +46,8 @@ protected:
 private:
 	
 	IOnlineSubsystem* onlineSubsystem;
-	IOnlineSessionPtr onlineSession;
-
+	IOnlineSessionPtr sessionInterface;
+	TSharedPtr<FOnlineSessionSettings> sessionSettings;
 ////////////////////////////////////////////////////////////
 //Delegates that handles creating,joining,finding,destroying sessions
 ////////////////////////////////////////////////////////////
