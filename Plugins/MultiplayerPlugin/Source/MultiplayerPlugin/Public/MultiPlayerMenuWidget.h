@@ -17,7 +17,7 @@ class MULTIPLAYERPLUGIN_API UMultiPlayerMenuWidget : public UUserWidget
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void menuSetup();
+	void menuSetup(int32 numPublicConnections = 4, FString matchType = FString(TEXT("FreeForAll")));
 
 protected:
 	virtual bool Initialize() override;
@@ -25,10 +25,10 @@ protected:
 private: 
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* hostButton;
+	class UButton* _hostButton;
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* joinButton;
+	class UButton* _joinButton;
 
 	UFUNCTION()
 	void onHostButtonClicked();
@@ -38,5 +38,8 @@ private:
 
 	void menuTearDown();
 
-	class UMultiplayerPluginSubsystem* multiplayerSubsystem;
+	class UMultiplayerPluginSubsystem* _multiplayerSubsystem;
+
+	int32 _numPublicConnections{4};
+	FString _matchType{TEXT("FreeForAll")};
 };

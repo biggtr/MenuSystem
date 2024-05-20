@@ -5,8 +5,10 @@
 #include "Components/Button.h"
 #include "MultiplayerPluginSubsystem.h"
 
-void UMultiPlayerMenuWidget::menuSetup()
+void UMultiPlayerMenuWidget::menuSetup(int32 numPublicConnections , FString matchType)
 {
+	_numPublicConnections = numPublicConnections;
+	_matchType = matchType;
 	AddToViewport();
 	SetVisibility(ESlateVisibility::Visible);
 	bIsFocusable = true;
@@ -30,7 +32,7 @@ void UMultiPlayerMenuWidget::menuSetup()
 
 	if (gameInstance)
 	{
-		multiplayerSubsystem = gameInstance->GetSubsystem<UMultiplayerPluginSubsystem>();
+		_multiplayerSubsystem = gameInstance->GetSubsystem<UMultiplayerPluginSubsystem>();
 	}
 }
 
@@ -40,13 +42,13 @@ bool UMultiPlayerMenuWidget::Initialize()
 	{
 		return false;
 	}
-	if (hostButton)
+	if (_hostButton)
 	{
-		hostButton->OnClicked.AddDynamic(this, &ThisClass::onHostButtonClicked);
+		_hostButton->OnClicked.AddDynamic(this, &ThisClass::onHostButtonClicked);
 	}
-	if (joinButton)
+	if (_joinButton)
 	{
-		joinButton->OnClicked.AddDynamic(this, &ThisClass::onJoinButtonClicked);
+		_joinButton->OnClicked.AddDynamic(this, &ThisClass::onJoinButtonClicked);
 	}
 	return true;
 }
@@ -66,9 +68,9 @@ void UMultiPlayerMenuWidget::onHostButtonClicked()
 		
 		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Red, FString(TEXT("HostButtom is clicked")));
 	}
-	if (multiplayerSubsystem)
+	if (_multiplayerSubsystem)
 	{
-		multiplayerSubsystem->createSession(4, FString("Free For All"));
+		_multiplayerSubsystem->createSession(_numPublicConnections, _matchType);
 		UWorld* world = GetWorld();
 		if (world)
 		{
