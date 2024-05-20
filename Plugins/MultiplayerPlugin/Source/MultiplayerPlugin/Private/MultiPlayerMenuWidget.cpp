@@ -51,6 +51,14 @@ bool UMultiPlayerMenuWidget::Initialize()
 	return true;
 }
 
+
+void UMultiPlayerMenuWidget::NativeDestruct()
+{
+	menuTearDown();
+
+	Super::NativeDestruct();
+}
+
 void UMultiPlayerMenuWidget::onHostButtonClicked()
 {
 	if (GEngine)
@@ -74,5 +82,22 @@ void UMultiPlayerMenuWidget::onJoinButtonClicked()
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Red, FString(TEXT("JoinButtom is clicked")));
+	}
+}
+
+void UMultiPlayerMenuWidget::menuTearDown()
+{
+	RemoveFromParent();
+	UWorld* world = GetWorld();
+
+	if (world)
+	{
+		APlayerController* playerController = world->GetFirstPlayerController();
+		if (playerController)
+		{
+			FInputModeGameOnly inputModeData;
+			playerController->SetInputMode(inputModeData);
+			playerController->SetShowMouseCursor(false);
+		}
 	}
 }
