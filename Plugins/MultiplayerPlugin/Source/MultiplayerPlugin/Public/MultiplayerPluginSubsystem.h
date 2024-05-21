@@ -8,9 +8,11 @@
 
 #include "MultiplayerPluginSubsystem.generated.h"
 
-/**
- * 
- */
+////////////////////////////////////////////////////////////
+// Declaring Custom Delegates for Other services(Menu Widgets,..,..) to use .
+////////////////////////////////////////////////////////////
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMultiplayerOnCreateSessionCompleteDelegate, bool, bWasSuccessful);
+
 class IOnlineSubsystem;
 UCLASS()
 class MULTIPLAYERPLUGIN_API UMultiplayerPluginSubsystem : public UGameInstanceSubsystem
@@ -34,6 +36,10 @@ public:
 	
 	void startSession();
 
+//////////////////////////////////////////////////////////////////////////
+/// Our Own Custom Delegates for Other Services(Menu Widgets,..,..)
+//////////////////////////////////////////////////////////////////////////
+	FMultiplayerOnCreateSessionCompleteDelegate multiplayerOnCreateSessionCompleteDelegate;
 protected:
 ////////////////////////////////////////////////////////////
 //Callback functions to handle creating,joining,finding,destroying sessions

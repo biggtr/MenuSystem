@@ -48,6 +48,8 @@ void UMultiplayerPluginSubsystem::createSession(int32 numPublicConnections, FStr
 	if (!sessionInterface->CreateSession(*localPlayer->GetPreferredUniqueNetId(), NAME_GameSession, *sessionSettings))
 	{
 		sessionInterface->ClearOnCreateSessionCompleteDelegate_Handle(createSessionCompleteDelegateHandle);
+		
+		multiplayerOnCreateSessionCompleteDelegate.Broadcast(false);
 	}
 
 }
@@ -73,6 +75,11 @@ void UMultiplayerPluginSubsystem::startSession()
 
 void UMultiplayerPluginSubsystem::onCreateSessionComplete(FName SessionName, bool bWasSuccessful)
 {
+	if (sessionInterface)
+	{
+		sessionInterface->ClearOnCreateSessionCompleteDelegate_Handle(createSessionCompleteDelegateHandle);
+	}
+	multiplayerOnCreateSessionCompleteDelegate.Broadcast(bWasSuccessful);
 
 }
 

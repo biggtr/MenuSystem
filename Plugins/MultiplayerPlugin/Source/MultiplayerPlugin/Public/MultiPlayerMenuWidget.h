@@ -22,6 +22,10 @@ public:
 protected:
 	virtual bool Initialize() override;
 	virtual void NativeDestruct() override;
+
+	UFUNCTION()
+	void onCreateSession(bool bWasSuccessful);
+
 private: 
 
 	UPROPERTY(meta = (BindWidget))
@@ -36,6 +40,7 @@ private:
 	UFUNCTION()
 	void onJoinButtonClicked();
 
+	UFUNCTION()
 	void menuTearDown();
 
 	class UMultiplayerPluginSubsystem* _multiplayerSubsystem;
