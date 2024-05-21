@@ -26,6 +26,15 @@ protected:
 	UFUNCTION()
 	void onCreateSession(bool bWasSuccessful);
 
+	void onFindSession(const TArray<FOnlineSessionSearchResult>& sessionResult, bool bWasSuccessful);
+
+	void onJoinSession(EOnJoinSessionCompleteResult::Type sessionResult);
+
+	UFUNCTION()
+	void onDestroySession(bool bWasSuccessful);
+
+	UFUNCTION()
+	void onStartSession(bool bWasSuccessful);
 private: 
 
 	UPROPERTY(meta = (BindWidget))

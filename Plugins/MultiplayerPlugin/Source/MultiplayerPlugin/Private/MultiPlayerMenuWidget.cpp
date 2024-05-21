@@ -3,6 +3,8 @@
 
 #include "MultiPlayerMenuWidget.h"
 #include "Components/Button.h"
+#include "Interfaces/OnlineSessionInterface.h"
+#include "OnlineSessionSettings.h"
 #include "MultiplayerPluginSubsystem.h"
 
 void UMultiPlayerMenuWidget::menuSetup(int32 numPublicConnections , FString matchType)
@@ -38,6 +40,11 @@ void UMultiPlayerMenuWidget::menuSetup(int32 numPublicConnections , FString matc
 	if (_multiplayerSubsystem)
 	{
 		_multiplayerSubsystem->multiplayerOnCreateSessionCompleteDelegate.AddDynamic(this, &ThisClass::onCreateSession);
+		_multiplayerSubsystem->multiplayerOnStartSessionCompleteDelegate.AddDynamic(this, &ThisClass::onStartSession);
+		_multiplayerSubsystem->multiplayerOnDestroySessionCompleteDelegate.AddDynamic(this, &ThisClass::onDestroySession);
+		_multiplayerSubsystem->multiplayerOnFindSessionCompleteDelegate.AddUObject(this, &ThisClass::onFindSession);
+		_multiplayerSubsystem->multiplayerOnJoinSessionCompleteDelegate.AddUObject(this, &ThisClass::onJoinSession);
+
 	}
 }
 
@@ -91,6 +98,28 @@ void UMultiPlayerMenuWidget::onCreateSession(bool bWasSuccessful)
 			GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Red, FString(TEXT("Failed to create session. ")));
 		}
 	}
+}
+
+
+
+void UMultiPlayerMenuWidget::onFindSession(const TArray<FOnlineSessionSearchResult>& sessionResult, bool bWasSuccessful)
+{
+
+}
+
+void UMultiPlayerMenuWidget::onJoinSession(EOnJoinSessionCompleteResult::Type sessionResult)
+{
+
+}
+
+void UMultiPlayerMenuWidget::onDestroySession(bool bWasSuccessful)
+{
+
+}
+
+void UMultiPlayerMenuWidget::onStartSession(bool bWasSuccessful)
+{
+
 }
 
 void UMultiPlayerMenuWidget::onHostButtonClicked()

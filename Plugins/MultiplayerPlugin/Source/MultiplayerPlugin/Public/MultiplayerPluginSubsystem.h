@@ -15,7 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMultiplayerOnCreateSessionCompleteD
 DECLARE_MULTICAST_DELEGATE_TwoParams(FMultiplayerOnFindSessionCompleteDelegate, const TArray<FOnlineSessionSearchResult>& sessionResult, bool bWasSuccessful);
 DECLARE_MULTICAST_DELEGATE_OneParam(FMultiplayerOnJoinSessionCompleteDelegate, EOnJoinSessionCompleteResult::Type sessionResult);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMultiplayerOnStartSessionCompleteDelegate, bool, bWasSuccessful);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMultiplayerOnStartSessionCompleteDelegate, bool, bWasSuccessful);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMultiplayerOnDestroySessionCompleteDelegate, bool, bWasSuccessful);
 
 
 class IOnlineSubsystem;
@@ -45,6 +45,11 @@ public:
 /// Our Own Custom Delegates for Other Services(Menu Widgets,..,..)
 //////////////////////////////////////////////////////////////////////////
 	FMultiplayerOnCreateSessionCompleteDelegate multiplayerOnCreateSessionCompleteDelegate;
+	FMultiplayerOnFindSessionCompleteDelegate multiplayerOnFindSessionCompleteDelegate;
+	FMultiplayerOnJoinSessionCompleteDelegate multiplayerOnJoinSessionCompleteDelegate;
+	FMultiplayerOnStartSessionCompleteDelegate multiplayerOnStartSessionCompleteDelegate;
+	FMultiplayerOnDestroySessionCompleteDelegate multiplayerOnDestroySessionCompleteDelegate;
+
 protected:
 ////////////////////////////////////////////////////////////
 //Callback functions to handle creating,joining,finding,destroying sessions
