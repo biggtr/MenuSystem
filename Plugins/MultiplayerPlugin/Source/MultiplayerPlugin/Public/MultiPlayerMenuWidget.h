@@ -28,7 +28,7 @@ protected:
 
 	void onFindSession(const TArray<FOnlineSessionSearchResult>& sessionResult, bool bWasSuccessful);
 
-	void onJoinSession(EOnJoinSessionCompleteResult::Type sessionResult);
+	void onJoinSession(EOnJoinSessionCompleteResult::Type sessionResult,FString ipAddress);
 
 	UFUNCTION()
 	void onDestroySession(bool bWasSuccessful);

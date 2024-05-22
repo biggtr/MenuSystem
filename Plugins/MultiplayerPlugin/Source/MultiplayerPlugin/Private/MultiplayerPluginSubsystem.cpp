@@ -151,12 +151,15 @@ void UMultiplayerPluginSubsystem::onFindSessionsComplete(bool bWasSuccessful)
 
 void UMultiplayerPluginSubsystem::onJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type result)
 {
+	FString ipAddress;
 	if (_sessionInterface.IsValid())
 	{
+		_sessionInterface->GetResolvedConnectString(NAME_GameSession, ipAddress);
 		_sessionInterface->ClearOnJoinSessionCompleteDelegate_Handle(_joinSessionCompleteDelegateHandle);
+			
 	}
 
-	multiplayerOnJoinSessionCompleteDelegate.Broadcast(result);
+	multiplayerOnJoinSessionCompleteDelegate.Broadcast(result,ipAddress);
 }
 
 

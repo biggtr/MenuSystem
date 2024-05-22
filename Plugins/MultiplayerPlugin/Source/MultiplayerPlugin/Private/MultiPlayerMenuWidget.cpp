@@ -120,9 +120,13 @@ void UMultiPlayerMenuWidget::onFindSession(const TArray<FOnlineSessionSearchResu
 	}
 }
 
-void UMultiPlayerMenuWidget::onJoinSession(EOnJoinSessionCompleteResult::Type sessionResult)
+void UMultiPlayerMenuWidget::onJoinSession(EOnJoinSessionCompleteResult::Type sessionResult,FString ipAddress)
 {
-
+	APlayerController* playerController = GetGameInstance()->GetFirstLocalPlayerController();
+	if (playerController)
+	{
+		playerController->ClientTravel(ipAddress, ETravelType::TRAVEL_Absolute);
+	}
 }
 
 void UMultiPlayerMenuWidget::onDestroySession(bool bWasSuccessful)
