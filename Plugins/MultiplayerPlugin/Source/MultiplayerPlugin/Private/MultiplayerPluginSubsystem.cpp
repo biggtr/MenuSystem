@@ -83,8 +83,8 @@ void UMultiplayerPluginSubsystem::findSession(int32 maxSearchResults)
 
 		if (!_sessionInterface->FindSessions(*localPlayer->GetPreferredUniqueNetId(), _searchSettings.ToSharedRef()))
 		{
-
-			multi
+			_sessionInterface->ClearOnFindSessionsCompleteDelegate_Handle(_findSessionCompleteDelegateHandle);
+			multiplayerOnFindSessionCompleteDelegate.Broadcast(TArray<FOnlineSessionSearchResult>{}, false);
 		}
 	}
 
@@ -118,7 +118,17 @@ void UMultiplayerPluginSubsystem::onCreateSessionComplete(FName SessionName, boo
 
 void UMultiplayerPluginSubsystem::onFindSessionsComplete(bool bWasSuccessful)
 {
+	if (_sessionInterface)
+	{
+		_sessionInterface->ClearOnFindSessionsCompleteDelegate_Handle(_findSessionCompleteDelegateHandle);
 
+	}
+	if (_searchSettings->SearchResults.Num() <= 0)
+	{
+		multiplayerOnFindSessionCompleteDelegate.Broadcast(TArray<FOnlineSessionSearchResult>{}, false);
+		return;
+	}
+	multiplayerOnFindSessionCompleteDelegate.Broadcast(_searchSettings->SearchResults, bWasSuccessful);
 }
 
 void UMultiplayerPluginSubsystem::onJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
