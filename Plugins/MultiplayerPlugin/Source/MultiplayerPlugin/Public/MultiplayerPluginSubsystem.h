@@ -19,6 +19,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMultiplayerOnDestroySessionComplete
 
 
 class IOnlineSubsystem;
+class FOnlineSessionSearch;
+class FOnlineSessionSettings;
 UCLASS()
 class MULTIPLAYERPLUGIN_API UMultiplayerPluginSubsystem : public UGameInstanceSubsystem
 {
@@ -61,22 +63,23 @@ protected:
 	void onStartSessionComplete(FName SessionName, bool bWasSuccessful);
 private:
 	
-	IOnlineSubsystem* onlineSubsystem;
-	IOnlineSessionPtr sessionInterface;
-	TSharedPtr<FOnlineSessionSettings> sessionSettings;
+	IOnlineSubsystem* _onlineSubsystem;
+	IOnlineSessionPtr _sessionInterface;
+	TSharedPtr<FOnlineSessionSettings> _sessionSettings;
+	TSharedPtr<FOnlineSessionSearch> _searchSettings;
 ////////////////////////////////////////////////////////////
 //Delegates that handles creating,joining,finding,destroying sessions
 ////////////////////////////////////////////////////////////
-	FOnCreateSessionCompleteDelegate onCreateSessionCompleteDelegate;
-	FDelegateHandle createSessionCompleteDelegateHandle;
-	FOnFindSessionsCompleteDelegate onFindSessionCompleteDelegate;
-	FDelegateHandle findSessionCompleteDelegateHandle;
-	FOnJoinSessionCompleteDelegate onJoinSessionCompleteDelegate;
-	FDelegateHandle joinSessionCompleteDelegateHandle;
-	FOnDestroySessionCompleteDelegate onDestroySessionCompleteDelegate;
-	FDelegateHandle destroySessionCompleteDelegateHandle;
-	FOnStartSessionCompleteDelegate onStartSessionCompleteDelegate;
-	FDelegateHandle startSessionCompleteDelegateHandle;
+	FOnCreateSessionCompleteDelegate _onCreateSessionCompleteDelegate;
+	FDelegateHandle _createSessionCompleteDelegateHandle;
+	FOnFindSessionsCompleteDelegate _onFindSessionCompleteDelegate;
+	FDelegateHandle _findSessionCompleteDelegateHandle;
+	FOnJoinSessionCompleteDelegate _onJoinSessionCompleteDelegate;
+	FDelegateHandle _joinSessionCompleteDelegateHandle;
+	FOnDestroySessionCompleteDelegate _onDestroySessionCompleteDelegate;
+	FDelegateHandle _onDestroySessionCompleteDelegateHandle;
+	FOnStartSessionCompleteDelegate _onStartSessionCompleteDelegate;
+	FDelegateHandle _onStartSessionCompleteDelegateHandle;
 	
 	
 };
