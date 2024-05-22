@@ -4,7 +4,7 @@
 #include "MultiplayerPluginSubsystem.h"
 #include "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
-
+#include "Online/OnlineSessionNames.h"
 UMultiplayerPluginSubsystem::UMultiplayerPluginSubsystem():
 	_onCreateSessionCompleteDelegate(FOnCreateSessionCompleteDelegate::CreateUObject(this,&ThisClass::onCreateSessionComplete)),
 	_onFindSessionCompleteDelegate(FOnFindSessionsCompleteDelegate::CreateUObject(this, &ThisClass::onFindSessionsComplete)),
@@ -95,7 +95,7 @@ void UMultiplayerPluginSubsystem::joinSession(const FOnlineSessionSearchResult& 
 {
 	if (!_sessionInterface.IsValid())
 	{
-		multiplayerOnJoinSessionCompleteDelegate.Broadcast(EOnJoinSessionCompleteResult::UnknownError);
+		multiplayerOnJoinSessionCompleteDelegate.Broadcast(EOnJoinSessionCompleteResult::UnknownError, FString{});
 		return;
 	}
 
@@ -109,7 +109,7 @@ void UMultiplayerPluginSubsystem::joinSession(const FOnlineSessionSearchResult& 
 		if (!_sessionInterface->JoinSession(*localPlayer->GetPreferredUniqueNetId(), NAME_GameSession, searchResult))
 		{
 			_sessionInterface->ClearOnJoinSessionCompleteDelegate_Handle(_joinSessionCompleteDelegateHandle);
-			multiplayerOnJoinSessionCompleteDelegate.Broadcast(EOnJoinSessionCompleteResult::UnknownError);
+			multiplayerOnJoinSessionCompleteDelegate.Broadcast(EOnJoinSessionCompleteResult::UnknownError, FString{});
 		}
 	}
 }

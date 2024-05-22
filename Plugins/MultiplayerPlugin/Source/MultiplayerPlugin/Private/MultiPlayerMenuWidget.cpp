@@ -13,8 +13,7 @@ void UMultiPlayerMenuWidget::menuSetup(int32 numPublicConnections , FString matc
 	_matchType = matchType;
 	AddToViewport();
 	SetVisibility(ESlateVisibility::Visible);
-	bIsFocusable = true;
-
+	SetIsFocusable(true);
 	UWorld* world = GetWorld();
 	if (world)
 	{
