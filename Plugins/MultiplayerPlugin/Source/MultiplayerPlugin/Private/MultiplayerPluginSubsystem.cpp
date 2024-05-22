@@ -93,7 +93,25 @@ void UMultiplayerPluginSubsystem::findSession(int32 maxSearchResults)
 
 void UMultiplayerPluginSubsystem::joinSession(const FOnlineSessionSearchResult& searchResult)
 {
+	if (!_sessionInterface.IsValid())
+	{
+		multiplayerOnJoinSessionCompleteDelegate.Broadcast(EOnJoinSessionCompleteResult::UnknownError);
+		return;
+	}
 
+	_joinSessionCompleteDelegateHandle = _sessionInterface->AddOnJoinSessionCompleteDelegate_Handle(_onJoinSessionCompleteDelegate);
+
+
+	UWorld* world = GetWorld();
+	if (world)
+	{
+		ULocalPlayer* localPlayer = world->GetFirstLocalPlayerFromController();
+		if (!_sessionInterface->JoinSession(*localPlayer->GetPreferredUniqueNetId(), NAME_GameSession, searchResult))
+		{
+			_sessionInterface->ClearOnJoinSessionCompleteDelegate_Handle(_joinSessionCompleteDelegateHandle);
+			multiplayerOnJoinSessionCompleteDelegate.Broadcast(EOnJoinSessionCompleteResult::UnknownError);
+		}
+	}
 }
 
 void UMultiplayerPluginSubsystem::destroySession()
@@ -131,8 +149,14 @@ void UMultiplayerPluginSubsystem::onFindSessionsComplete(bool bWasSuccessful)
 	multiplayerOnFindSessionCompleteDelegate.Broadcast(_searchSettings->SearchResults, bWasSuccessful);
 }
 
-void UMultiplayerPluginSubsystem::onJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
+void UMultiplayerPluginSubsystem::onJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type result)
 {
+	if (_sessionInterface.IsValid())
+	{
+		_sessionInterface->ClearOnJoinSessionCompleteDelegate_Handle(_joinSessionCompleteDelegateHandle);
+	}
+
+	multiplayerOnJoinSessionCompleteDelegate.Broadcast(result);
 }
 
 
