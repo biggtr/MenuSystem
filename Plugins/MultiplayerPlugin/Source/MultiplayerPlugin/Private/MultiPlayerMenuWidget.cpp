@@ -104,7 +104,20 @@ void UMultiPlayerMenuWidget::onCreateSession(bool bWasSuccessful)
 
 void UMultiPlayerMenuWidget::onFindSession(const TArray<FOnlineSessionSearchResult>& sessionResult, bool bWasSuccessful)
 {
-
+	if (!_multiplayerSubsystem)
+	{
+		return;
+	}
+	for (auto result : sessionResult)
+	{
+		FString matchTypeToJoin;
+		result.Session.SessionSettings.Get("MatchType", matchTypeToJoin);
+		if (matchTypeToJoin == _matchType)
+		{
+			_multiplayerSubsystem->joinSession(result);
+			return;
+		}
+	}
 }
 
 void UMultiPlayerMenuWidget::onJoinSession(EOnJoinSessionCompleteResult::Type sessionResult)
@@ -138,9 +151,9 @@ void UMultiPlayerMenuWidget::onHostButtonClicked()
 
 void UMultiPlayerMenuWidget::onJoinButtonClicked()
 {
-	if (GEngine)
+	if (_multiplayerSubsystem)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.f, FColor::Red, FString(TEXT("JoinButtom is clicked")));
+		_multiplayerSubsystem->findSession(10000);
 	}
 }
 
